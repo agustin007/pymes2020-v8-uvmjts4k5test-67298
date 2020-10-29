@@ -1,0 +1,136 @@
+<div class="container">
+	<h3>{{Titulo}}</h3>
+	<div *ngIf="AccionABMC=='L'">
+		<table class=" table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class=" text-center">IdServicioArticulo</th>
+					<th class="text-center">Descripcion</th>
+					<th class="text-center">Precio</th>
+					<th class="text-center">CantidadHoras</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of Items.Lista">
+					<td>{{item.idservicio}}</td>
+					<td>{{item.descripcion}}</td>
+					<td>{{item.importe}}</td>
+					<td>{{item.cantidadhoras}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!--Boton agregar-->
+		<div class="row justify-content-center">
+			<button type="button" class="btn btn-primary" (click)="Agregar()">
+              <span class="fas fa-plus"> </span> 
+              Agregar
+        </button>
+		</div>
+	</div>
+
+	<!--Formulario-->
+	<form name="FormServicios" [formGroup]="FormServicios" *ngIf="AccionABMC == 'A'">
+		<fieldset [disabled]="AccionABMC === 'C'">
+
+			<div class="form-group row">
+				<label class="col-form-label col-sm-2 col-sm-offset-2" for="Nombre">Descripcion <span class="text-danger">*</span></label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" formControlName="Descripcion" [ngClass]="{'is-invalid': (FormServicios.controls.Descripcion.touched || submitted)  
+            && FormServicios.controls.Descripcion.errors}" />
+
+					<span class="text-danger" *ngIf="
+          (FormServicios.controls.Descripcion.touched || submitted) && FormServicios.controls.Descripcion.errors?.required " >Dato requerido</span>
+
+					<span class="text-danger" *ngIf="
+          (FormServicios.controls.Descripcion.touched || submitted) && (FormServicios.controls.Descripcion.errors?.minLength || FormServicios.controls.Descripcion.errors?.maxLength)">Dato texto, de 4 a 54 caracteres</span>
+
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-form-label col-sm-2 col-sm-offset-2" for="Importe">Importe <span class="text-danger">*</span></label>
+				<div class="col-sm-6">
+					<input type="text" name="Importe" class="form-control" formControlName="Importe"
+                [ngClass]="{'is-invalid': (FormServicios.controls.Importe.touched || submitted)  
+                && FormServicios.controls.Importe.errors}" />
+					<span class="text-danger" *ngIf="(FormServicios.controls.Importe.touched || submitted) 
+                          && FormServicios.controls.Importe.errors?.required">
+                        Dato requerido.
+                    </span>
+					<span class="text-danger" *ngIf="(FormServicios.controls.Importe.touched || submitted) 
+                  && FormServicios.controls.Importe.errors?.pattern">
+                        Dato numérico, 1 a 7 dígitos.
+                    </span>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-form-label col-sm-2 col-sm-offset-2" for="CantidadHoras">Cantidad de horas <span class="text-danger">*</span></label>
+				<div class="col-sm-6">
+					<input type="text" name="CantidadHoras" class="form-control" formControlName="CantidadHoras"
+                [ngClass]="{'is-invalid': (FormServicios.controls.CantidadHoras.touched || submitted)  
+                && FormServicios.controls.CantidadHoras.errors}" />
+					<span class="text-danger" *ngIf="(FormServicios.controls.CantidadHoras.touched || submitted) 
+                          && FormServicios.controls.CantidadHoras.errors?.required">
+                        Dato requerido.
+                    </span>
+					<span class="text-danger" *ngIf="(FormServicios.controls.CantidadHoras.touched || submitted) 
+                  && FormServicios.controls.CantidadHoras.errors?.maxLength">
+                        Dato numérico, maximo 4 caracteres.
+                    </span>
+				</div>
+			</div>
+
+      <!--
+			<div class="form-group row">
+				<label class="col-form-label col-sm-2 col-sm-offset-2" for="IdServicio">Id servicio <span class="text-danger">*</span></label>
+				<div class="col-sm-6">
+					<input type="text" name="IdServicio" class="form-control" formControlName="IdServicio"
+                  [ngClass]="{'is-invalid': (FormServicios.controls.IdServicio.touched || submitted)  
+                  && FormServicios.controls.IdServicio.errors}" />
+					<span class="text-danger" *ngIf="(FormServicios.controls.IdServicio.touched || submitted) 
+                            && FormServicios.controls.IdServicio.errors?.required">
+                          Dato requerido.
+                      </span>
+				</div>
+			</div>
+      -->
+
+			<div class="form-group row">
+				<label class="col-form-label col-sm-2 col-sm-offset-2" for="Nombre">Activo </label>
+				<div class="col-sm-6">
+					<select name="activo" class="form-control" disabled formControlName="Activo">
+                <option *ngFor="let option of OpcionesActivo" [ngValue]="option.Id">
+                    {{option.Nombre}}
+                </option>
+
+              </select>
+				</div>
+			</div>
+
+
+
+		</fieldset>
+
+		<div class="row justify-content-center">
+			<button type="button" class="btn btn-primary" (click)="Grabar()">
+        <span class="fas fa-check"></span>Grabar
+      </button>
+			&nbsp;
+
+			<button type="button" class="btn btn-primary" (click)="Volver()">
+        <span class="fas fa-undo"></span>{{AccionABMC == 'C' ? 'Volver' : 'Cancelar'}}
+      </button>
+			&nbsp;
+		</div>
+
+		<div class="row alert alert-danger" id="frmServicios" *ngIf="submitted && FormServicios.is-invalid ">
+			<span class="fas fa-exclamation-sign"></span>{{Mensajes['RD']}}
+		</div>
+
+	</form>
+
+
+
+</div>

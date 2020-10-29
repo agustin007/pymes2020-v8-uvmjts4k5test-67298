@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
-import { RouterModule } from '@angular/router';
-import { APP_BASE_HREF} from '@angular/common';  
+import { RouterModule } from "@angular/router";
+import { APP_BASE_HREF } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -19,6 +19,8 @@ import { InicioComponent } from "./components/inicio/inicio.component";
 import { ArticulosComponent } from "./components/articulos/articulos.component";
 import { ArticulosFamiliasComponent } from "./components/articulos-familias/articulos-familias.component";
 import { ModalDialogComponent } from "./components/modal-dialog/modal-dialog.component";
+import { ServiciosArticulosService } from "./services/servicios-articulos.service";
+import { ServiciosArticulosComponent } from "./components/servicios-articulos/servicios-articulos.component";
 
 @NgModule({
   declarations: [
@@ -28,24 +30,31 @@ import { ModalDialogComponent } from "./components/modal-dialog/modal-dialog.com
     ArticulosComponent,
     ArticulosFamiliasComponent,
     ModalDialogComponent,
+    ServiciosArticulosComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: '/inicio', pathMatch: 'full' },
-      { path: 'inicio', component: InicioComponent },
-      { path: 'articulos', component: ArticulosComponent },
-      { path: 'articulosfamilias', component: ArticulosFamiliasComponent }
+      { path: "", redirectTo: "/inicio", pathMatch: "full" },
+      { path: "inicio", component: InicioComponent },
+      { path: "articulos", component: ArticulosComponent },
+      { path: "articulosfamilias", component: ArticulosFamiliasComponent },
+      { path: "serviciosarticulos", component: ServiciosArticulosComponent }
     ]),
     NgbPaginationModule,
-    NgbModalModule,
+    NgbModalModule
   ],
   entryComponents: [ModalDialogComponent],
   providers: [
-     {provide: APP_BASE_HREF, useValue : '/' },
-    { provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true }
+    { provide: APP_BASE_HREF, useValue: "/" },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MyInterceptor,
+      multi: true,
+      providers: [ServiciosArticulosService]
+    }
   ],
   bootstrap: [AppComponent]
 })
