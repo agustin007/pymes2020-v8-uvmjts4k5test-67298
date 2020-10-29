@@ -44,7 +44,7 @@ export class ServiciosArticulosComponent implements OnInit {
     this.GetSericiosArticulos();
 
     this.FormServicios = this.formBuilder.group({
-      IdArticulo: [0],
+      IdServicio: [0],
       Descripcion: [
         "",
         [Validators.required, Validators.minLength(4), Validators.maxLength(54)]

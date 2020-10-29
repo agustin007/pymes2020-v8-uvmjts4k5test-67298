@@ -17,6 +17,7 @@ export class ServiciosArticulosService {
   }
 
   post(obj: ServiciosArticulos) {
+    delete obj.idservicio;
     return this.httpClient.post(this.resourseUrl, obj);
   }
 }
